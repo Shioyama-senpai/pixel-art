@@ -1,0 +1,38 @@
+.content-container {
+	text-align: center;
+}
+
+.content {
+	width: 100%;
+	max-width: 750px;
+	display: inline-block;
+	text-align: left;
+}
+
+.header {
+	
+}
+
+.header * {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.footer {
+	text-align: center;
+}
+
+.main-buttons-container {
+	text-align: center;
+}
+
+.post-image-container {
+	position: relative;
+}
+
+.post-image {
+	width: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	display: inline-block;
+}

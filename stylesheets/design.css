@@ -1,0 +1,56 @@
+:root {
+	--primary-color: #FAFAFA;
+	--secondary-color: #EFEF78;
+	--background-color: #2C2C2C;
+	--error-red: #FF9797;
+	--success-green: #78EFBC;
+	--control-element-border: 2pt solid #FAFAFA;
+}
+
+body {
+	background-color: var(--background-color);
+}
+
+* {
+	color: var(--primary-color);
+	font-family: 'VT323';
+}
+
+a[href] {
+	color: var(--primary-color);
+}
+
+.header a[href] {
+	font-family: 'DotGothic16';
+	font-size: 24pt;
+	text-decoration: none;
+}
+
+img {
+	image-rendering: -moz-crisp-edges;
+	image-rendering: pixelated;
+}
+
+input[type="submit"], a.button, button {
+	display: inline-block;
+	padding: 8pt;
+	background-color: var(--primary-color);
+	color: var(--background-color);
+	border: var(--control-element-border);
+	text-decoration: none;
+	font-size: 18pt;
+}
+
+.success-message, .error-message {
+	padding: 8pt;
+	font-size: 18pt;
+	color: var(--background-color);
+}
+
+.success-message {
+	background-color: var(--success-green);
+}
+
+.error-message {
+	background-color: var(--error-red);
+}
