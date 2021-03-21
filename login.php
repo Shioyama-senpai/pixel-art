@@ -11,7 +11,7 @@
 <?php if (!$userData || $userData["userId"] == -1): ?>
 	<h1>Login</h1>
 
-	<p>You don't need to sign up to use this page. Just enter a user token of your choice and remember it for the next time.</p>
+	<p>You don't need to sign up to use this website. Just enter a user token of your choice and remember it for the next time.</p>
 	<p>The user token is a combination of your username and password. Thus, keep it secret and make sure you remember it. There is no way to recover a missing user token.</p>
 	<p>If a new, unknown user token is entered, a new user profile will be created automatically.</p>
 
