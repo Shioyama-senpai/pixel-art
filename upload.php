@@ -23,7 +23,8 @@
 
 	<form enctype="multipart/form-data" class="upload-form" method="POST">
 		<input type="hidden" name="MAX_FILE_SIZE" value="50000000">
-		<input type="file" name="image" required>
+		<p>The maximum file size is 50 MB. Only PNG and WebP are allowed.</p>
+		<input type="file" name="image" required onchange="Validator.validate(event);">
 		<br>
 		<input type="text" name="title" placeholder="Title" required maxlength="500" value="<?php if (isset($_POST["title"])) { echo $_POST["title"]; } ?>">
 		<br>

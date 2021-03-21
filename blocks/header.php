@@ -21,10 +21,13 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/design.css">
 		<link rel="stylesheet" type="text/css" href="stylesheets/layout.css">
 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 		<script src="scripts/jQuery.js"></script>
 		<script src="scripts/Utilities.js"></script>
 		<script src="scripts/Voter.js"></script>
 		<script src="scripts/LazyLoader.js"></script>
+		<script src="scripts/Validator.js"></script>
 
 		<?php
 			require_once "controllers/UserManager.php";
@@ -35,14 +38,14 @@
 	<body>
 		<div class="header">
 			<a href="index.php"><img src="images/PixelArt.png" class="logo"></a>
-			<a href="latest.php" class="navigation-link">discover</a>
-			<a href="upload.php" class="navigation-link">share</a>
+			<a href="latest.php" class="navigation-link discover">discover</a>
+			<a href="upload.php" class="navigation-link share">share</a>
 			<div class="header-right">
 				<div class="vertical-aligner"></div>
 				<?php if ($userId == -1): ?>
-					<a href="login.php" class="navigation-link">login</a>
+					<a href="login.php" class="navigation-link profile">login</a>
 				<?php else: ?>
-					<a href="profile.php" class="navigation-link">profile</a>
+					<a href="profile.php" class="navigation-link profile">profile</a>
 				<?php endif; ?>
 			</div>
 		</div>

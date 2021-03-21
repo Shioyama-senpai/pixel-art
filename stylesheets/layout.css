@@ -86,3 +86,21 @@
 .display-form {
 	margin-bottom: 20pt;
 }
+
+@media (max-width: 680px) {
+	.header a[href].navigation-link:not(.profile) {
+		font-size: 0;
+	}
+
+	.header a[href].navigation-link.discover::after {
+		content: "🔎";
+		display: inline-block;
+		font-size: 24pt;
+	}
+
+	.header a[href].navigation-link.share::after {
+		content: "🎨";
+		display: inline-block;
+		font-size: 24pt;
+	}
+}

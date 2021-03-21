@@ -40,6 +40,8 @@ input[type="submit"], a.button, button {
 	border: var(--control-element-border);
 	text-decoration: none;
 	font-size: 18pt;
+	-webkit-appearance: none;
+	border-radius: 0;
 }
 
 input[type="text"], input[type="number"], input[type="password"], textarea, select {
