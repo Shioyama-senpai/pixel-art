@@ -22,6 +22,7 @@
 	<?php if (!is_numeric($creationResult)): ?>
 
 	<form enctype="multipart/form-data" class="upload-form" method="POST">
+		<input type="hidden" name="MAX_FILE_SIZE" value="50000000">
 		<input type="file" name="image" required>
 		<br>
 		<input type="text" name="title" placeholder="Title" required maxlength="500" value="<?php if (isset($_POST["title"])) { echo $_POST["title"]; } ?>">

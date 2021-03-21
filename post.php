@@ -45,7 +45,7 @@
 		else if ($post["license"] == "cc-by-nc-nd") {
 			$ccCode = "CC BY-NC-ND";
 		}
-		$licenseText = "Published under Creative Commons <a href=\"http://creativecommons.org/licenses/" . $post["license"] . "/4.0/\">" . $ccCode . "</a>";
+		$licenseText = "Published under Creative Commons <a href=\"http://creativecommons.org/licenses/" . substr($post["license"], 3) . "/4.0/\" target=\"_blank\">" . $ccCode . "</a>";
 	}
 ?>
 

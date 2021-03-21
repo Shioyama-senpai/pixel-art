@@ -87,7 +87,7 @@
 			}
 
 			//Make sure the file size does not exceed the limit.
-			if (!is_uploaded_file($_FILES["image"]["tmp_name"]) || $_FILES["image"]["size"] > 2000000) { //2 MB
+			if (!is_uploaded_file($_FILES["image"]["tmp_name"]) || $_FILES["image"]["size"] > 50000000) { //50 MB
 				return "The uploaded file is too big.";
 			}
 
