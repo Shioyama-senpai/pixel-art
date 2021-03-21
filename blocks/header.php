@@ -35,8 +35,8 @@
 	<body>
 		<div class="header">
 			<a href="index.php"><img src="images/PixelArt.png" class="logo"></a>
+			<a href="latest.php" class="navigation-link">discover</a>
 			<a href="upload.php" class="navigation-link">share</a>
-			<a href="latest.php" class="navigation-link">explore</a>
 			<div class="header-right">
 				<div class="vertical-aligner"></div>
 				<?php if ($userId == -1): ?>
