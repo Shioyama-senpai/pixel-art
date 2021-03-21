@@ -39,6 +39,22 @@
 
 .post-image-container {
 	position: relative;
+	overflow: hidden;
+}
+
+.post.thumbnail .post-image-container img.post-image {
+	position: absolute;
+}
+
+.post.thumbnail .dummy-image {
+	width: 100%;
+	max-width: 100%;
+	min-width: 100%;
+	vertical-align: middle;
+}
+
+.post.thumbnail .post-details-container {
+	display: none;
 }
 
 .post-image {
@@ -54,6 +70,7 @@
 
 .post.list {
 	width: 100%;
+	margin-bottom: 60pt;
 }
 
 .post.thumbnail {

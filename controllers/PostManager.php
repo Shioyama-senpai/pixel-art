@@ -159,12 +159,16 @@
 				return $imagePath;
 			}
 
+			imagealphablending($image, false);
+
 			//Scale the image down.
 			$scaledImage = imagescale($image, 128);
 
 			//Build the thumbnail file name.
 			$pathInfo = pathinfo($imagePath);
 			$thumbnailPath = $pathInfo["dirname"] . DIRECTORY_SEPARATOR . $pathInfo["filename"] . " (Thumbnail)." . $pathInfo["extension"];
+
+			imagesavealpha($scaledImage, true);
 
 			//Save the image with the previous type.
 			if ($imageType == IMAGETYPE_PNG) {

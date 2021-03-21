@@ -38,8 +38,11 @@
 			echo "				<source srcset=\"" . $imagePath . "\">";
 			echo "				<img class=\"post-image\" src=\"" . $post["thumbnailpath"] . "\" loading=\"lazy\"" . ($displayMode == "list" ? " onload=\"LazyLoader.loadProperImage(event);\" full-image-source=\"" . $post["imagepath"] . "\" style=\"filter: blur(15px);\"" : "") . ">";
 			echo "			</picture>";
+			echo "			<img src=\"images/Dummy.png\" class=\"dummy-image\">";
 			echo "		</a>";
 			require "blocks/votes.php";
+			echo "	</div>";
+			echo "	<div class=\"post-details-container\">";
 			echo "		<a href=\"post.php?id=" . $post["postid"] . "\">";
 			echo "			<h3>" . $post["title"] . "</h3>";
 			echo "		</a>";
