@@ -10,12 +10,23 @@
 }
 
 .header {
-	
+	position: relative;
 }
 
 .header * {
 	vertical-align: middle;
 	display: inline-block;
+}
+
+.vertical-aligner {
+	height: 100%;
+}
+
+.header-right {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
 }
 
 .footer {
@@ -35,4 +46,26 @@
 	max-width: 100%;
 	overflow: hidden;
 	display: inline-block;
+}
+
+.post {
+	display: inline-block;
+}
+
+.post.list {
+	width: 100%;
+}
+
+.post.thumbnail {
+	width: 25%;
+}
+
+.votes-overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.display-form {
+	margin-bottom: 20pt;
 }

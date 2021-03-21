@@ -17,13 +17,14 @@ body {
 }
 
 a[href] {
-	color: var(--primary-color);
+	color: var(--secondary-color);
+	text-decoration: none;
 }
 
 .header a[href] {
+	color: var(--primary-color);
 	font-family: 'DotGothic16';
 	font-size: 24pt;
-	text-decoration: none;
 }
 
 img {
@@ -41,6 +42,29 @@ input[type="submit"], a.button, button {
 	font-size: 18pt;
 }
 
+input[type="text"], input[type="number"], input[type="password"], textarea, select {
+	background: none;
+	border-radius: 0;
+	border: 2pt solid var(--primary-color);
+	background-color: black;
+	padding: 8pt;
+	font-size: 18pt;
+	-webkit-appearance: none;
+}
+
+::placeholder {
+	color: #7F7F7F;
+	opacity: 1;
+}
+
+select {
+	background-image: url("../images/Dropdown.png");
+	background-position: 96% center;
+	background-size: 10pt;
+	background-repeat: no-repeat;
+	padding-right: 20pt;
+}
+
 .success-message, .error-message {
 	padding: 8pt;
 	font-size: 18pt;
@@ -53,4 +77,14 @@ input[type="submit"], a.button, button {
 
 .error-message {
 	background-color: var(--error-red);
+}
+
+.votes-overlay {
+	text-align: center;
+	font-size: 22pt;
+}
+
+.votes-overlay img {
+	width: 24px;
+	display: block;
 }

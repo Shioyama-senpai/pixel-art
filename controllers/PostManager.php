@@ -21,8 +21,10 @@
 			$this->database = DatabaseManager::getInstance()->getDatabase();
 		}
 
-		public function getAllPosts() {
-			$result = $this->database->query("SELECT postid, iduser, username, title, description, imagepath, thumbnailpath, license, post.created_at, total_votes FROM (SELECT *, SUM(IFNULL(vote, 0)) AS total_votes FROM post INNER JOIN user ON user.userid = post.iduser LEFT JOIN postvote ON postvote.idpost = post.postid GROUP BY postid) AS posts_with_votes ORDER BY created_at DESC");
+		public function getAllPosts($sorting = "most-popular") {
+			$userId = UserManager::getInstance()->getLoggedInUserId(true);
+
+			$result = $this->database->query("SELECT postid, iduser, username, title, description, imagepath, thumbnailpath, license, created_at, total_votes, IFNULL(user_vote, 0) AS user_vote FROM (SELECT *, SUM(IFNULL(vote, 0)) AS total_votes FROM post INNER JOIN (SELECT userid, username FROM user) AS user ON user.userid = post.iduser LEFT JOIN (SELECT idpost, vote FROM postvote) AS postvote ON postvote.idpost = post.postid GROUP BY postid) AS posts_with_votes LEFT JOIN (SELECT idpost, SUM(vote) AS user_vote FROM postvote WHERE iduser = ? GROUP BY idpost) AS uservote ON uservote.idpost = posts_with_votes.postid ORDER BY " . ($sorting == "most-popular" ? "total_votes" : "created_at") . " DESC LIMIT 100", array($userId), array("i"));
 			$resultArray = $this->database->toArray($result);
 			return $resultArray;
 		}
@@ -46,49 +48,10 @@
 		 * @return the post ID if the post was successfully created or an array of error strings if something went wrong.
 		 */
 		public function createPost() {
-			//Check if a user token is provided.
-			if ((!isset($_POST["usertoken"]) || empty($_POST["usertoken"])) && (!isset($_SESSION["usertoken"]) || empty($_SESSION["usertoken"]))) {
-				return "You must be authenticated to create a post.";
+			$userId = UserManager::getInstance()->getLoggedInUserId(true);
+			if (!$userId) {
+				return "Please log in first.";
 			}
-
-			//Check the user token.
-			/*$userId = -1;
-			$encryptedUserToken = "";
-			if (isset($_POST["usertoken"])) {
-				//Encrypt the provided login token and check if there is a user which has it.
-				$encryptedUserToken = sha1($_POST["usertoken"]);
-				$getUserResult = $this->database->query("SELECT userid FROM user WHERE usertoken = ? LIMIT 1", array($encryptedUserToken), array("s"));
-
-				if ($getUserResult === true || $getUserResult === false || $getUserResult->num_rows == 0) {
-					//No user has been found. Create a new one.
-					$this->database->query("INSERT INTO user(usertoken) VALUES(?)", array($encryptedUserToken), array("s"));
-					$userId = $this->database->getInsertedId();
-				}
-				else {
-					$userId = $getUserResult->fetch_assoc()["userid"];
-				}
-			}
-			else if (isset($_SESSION["usertoken"])) {
-				//Check if there is a user with the provided token from the cookies.
-				$getUserResult = $this->database->query("SELECT userid FROM user WHERE sessiontoken = ? AND sessionexpiration > NOW() LIMIT 1", array($_SESSION["usertoken"]), array("s"));
-
-				if ($getUserResult !== true && $getUserResult !== false) {
-					$userId = $getUserResult->fetch_assoc()["userid"];
-				}
-				else {
-					return "Please provide your user token.";
-				}
-				
-				//Encrypt the session token afterwards.
-				$encryptedUserToken = sha1($_SESSION["usertoken"]);
-			}*/
-			$userData = UserManager::getInstance()->getLoggedInUser();
-			if (!$userData) {
-				return "Please provide your user token.";
-			}
-
-			$userId = $userData["userId"];
-			$encryptedUserToken = $userData["encryptedUserToken"];
 
 			//Check if the title is set.
 			if (!isset($_POST["title"]) || empty($_POST["title"])) {
@@ -163,12 +126,6 @@
 
 			$postId = $this->database->getInsertedId();
 
-			//Update the user's session token.
-			$this->database->query("UPDATE user SET sessiontoken = ?, sessionexpiration = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE userid = ?", array($encryptedUserToken, $userId), array("s", "i"));
-
-			//Save the session token to the cookies with a lifetime of five minutes.
-			echo "<script>Utilities.setCookie(\"sessiontoken\", \"" . $encryptedUserToken . "\", 300000); Utilities.setCookie(\"sessionexpiration\", \"" . ((time() + 300) * 1000) . "\", 300000);</script>";
-
 			//Return the ID of the inserted row, since everything went as planned if we arrive down here.
 			return $postId;
 		}
@@ -227,7 +184,22 @@
 				return "You must be logged in to vote.";
 			}
 
-			$response = $this->database->query("INSERT INTO postvote(idpost, iduser, vote) VALUES(?, ?, ?)", array($postId, $userId, $vote), array("i", "i", "i"));
+			//Check if there is already a vote by this user and remove the vote if so.
+			$getVote = $this->database->query("SELECT * FROM postvote WHERE idpost = ? AND iduser = ?", array($postId, $userId), array("i", "i"));
+			if ($getVote->num_rows > 0) {
+				//Change the vote if the existing one is an opposite vote.
+				if ($getVote->fetch_assoc()["vote"] != $vote) {
+					$response = $this->database->query("UPDATE postvote SET vote = ? WHERE idpost = ? AND iduser = ?", array($vote, $postId, $userId), array("i", "i", "i"));
+				}
+				else {
+					//Otherwise, remove the vote.
+					$response = $this->database->query("DELETE FROM postvote WHERE idpost = ? AND iduser = ?", array($postId, $userId), array("i", "i"));
+				}
+			}
+			else {
+				//Insert the vote.
+				$response = $this->database->query("INSERT INTO postvote(idpost, iduser, vote) VALUES(?, ?, ?)", array($postId, $userId, $vote), array("i", "i", "i"));
+			}
 
 			if ($response === false) {
 				return "An error occurred.";

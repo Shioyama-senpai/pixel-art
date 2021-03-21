@@ -24,6 +24,8 @@ class Voter {
 		else {
 			alert("Could not save the vote. " + responseData.error);
 		}
+
+		Voter.processingVote = null;
 	}
 
 	static commitVote() {
@@ -31,8 +33,34 @@ class Voter {
 
 		var oldValue = parseInt(label.innerText);
 
-		label.innerText = oldValue + Voter.processingVoteValue;
+		label.innerText = oldValue + (Voter.processingVote.className == "active" ? -Voter.processingVoteValue : Voter.processingVoteValue);
 
-		Voter.processingVote = null;
+		var otherVoteButton = null;
+		var buttons = Voter.processingVote.parentNode.querySelectorAll("img");
+		for (var i = 0; i < buttons.length; i++) {
+			var thisButton = buttons[i];
+			if (thisButton != Voter.processingVote) {
+				otherVoteButton = thisButton;
+				break;
+			}
+		}
+
+		if (otherVoteButton.className == "active") {
+			otherVoteButton.className = "";
+			otherVoteButton.src = otherVoteButton.src.replace("%20(active).png", ".png");
+
+			//Add the same vote again if there was already an opposite vote.
+			oldValue = parseInt(label.innerText);
+			label.innerText = oldValue + (Voter.processingVote.className == "active" ? -Voter.processingVoteValue : Voter.processingVoteValue);
+		}
+
+		if (Voter.processingVote.className == "active") {
+			Voter.processingVote.className = "";
+			Voter.processingVote.src = Voter.processingVote.src.replace("%20(active).png", ".png");
+		}
+		else {
+			Voter.processingVote.className = "active";
+			Voter.processingVote.src = Voter.processingVote.src.replace(".png", "%20(active).png");
+		}
 	}
 }

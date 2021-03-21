@@ -3,6 +3,8 @@
 	ini_set('display_startup_errors', '1');
 	error_reporting(E_ALL);
 
+	$isAction = true;
+
 	require_once "controllers/PostManager.php";
 
 	if (!isset($_POST["vote"])) {

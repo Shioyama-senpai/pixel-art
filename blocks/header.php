@@ -16,12 +16,26 @@
 		<script src="scripts/Utilities.js"></script>
 		<script src="scripts/Voter.js"></script>
 		<script src="scripts/LazyLoader.js"></script>
+
+		<?php
+			require_once "controllers/UserManager.php";
+
+			$userId = UserManager::getInstance()->getLoggedInUserId(true);
+		?>
 	</head>
 	<body>
 		<div class="header">
 			<a href="index.php"><img src="images/PixelArt.png" class="logo"></a>
 			<a href="upload.php" class="navigation-link">share</a>
 			<a href="latest.php" class="navigation-link">explore</a>
+			<div class="header-right">
+				<div class="vertical-aligner"></div>
+				<?php if ($userId == -1): ?>
+					<a href="login.php" class="navigation-link">login</a>
+				<?php else: ?>
+					<a href="profile.php" class="navigation-link">profile</a>
+				<?php endif; ?>
+			</div>
 		</div>
 		<div class="content-container">
 			<div class="content">
