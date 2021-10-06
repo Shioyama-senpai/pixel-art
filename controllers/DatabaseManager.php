@@ -19,7 +19,7 @@
 		}
 
 		private function __construct() {
-			$this->database = new DatabaseConnection("localhost", "playground", "mP26hp3_", "playground");
+			$this->database = new DatabaseConnection("localhost", "root", "", "pixelart");
 			if (!$this->database->connect()) {
 				die("Could not connect to the database.");
 			}
